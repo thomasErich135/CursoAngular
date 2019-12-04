@@ -1,0 +1,19 @@
+<nav class="nav nav-pills nav-fill">
+    <a class="nav-item nav-link" 
+        [class.active]="aba == 'home'"
+        (click)='onClickNavBar("home")'>Home</a>
+    <a class="nav-item nav-link"
+        [class.active]="aba == 'compras'"
+        (click)='onClickNavBar("compras")'>Compras</a>
+    <a class="nav-item nav-link"
+        [class.active]="aba == 'comercial'"
+        (click)='onClickNavBar("comercial")'>Comercial</a>
+    <a class="nav-item nav-link disabled"
+        [class.active]="aba == 'configuracoes'">Configurações</a>
+  </nav>
+
+  <div class="container" [ngSwitch]="aba">
+     <p *ngSwitchDefault>Modo home ativado.</p>
+     <p *ngSwitchCase="'compras'">Modo compras ativado.</p>
+     <p *ngSwitchCase="'comercial'">Modo comercial ativado.</p>
+  </div>
