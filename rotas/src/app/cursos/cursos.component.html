@@ -1,0 +1,7 @@
+<div class="list-group">
+    <a class="list-group-item list-group-item-action" 
+        *ngFor="let cur of cursos" 
+        [routerLink]="['/curso', cur.id]" routerLinkActive="active" >
+        {{ cur.nome }}
+    </a>
+  </div>
