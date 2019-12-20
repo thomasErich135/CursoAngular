@@ -16,10 +16,7 @@ export class CursosService {
   }
 
   getCurso(id: number){
-    let curso = this.getCursos().find(curso => curso.id == id) 
-    if(curso == null)
-      return null;
-    
+    let curso = this.getCursos().find(curso => curso.id == id) ; 
     return curso;
   }
 

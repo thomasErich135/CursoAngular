@@ -1,7 +1,18 @@
+<br>
+<input type="text" class="form-control" placeholder="Nome do Curso"[(ngModel)]="filtro">
+<br>
 <div class="list-group">
     <a class="list-group-item list-group-item-action" 
-        *ngFor="let cur of cursos" 
+        *ngFor="let cur of filtrarCursos()" 
         [routerLink]="['/curso', cur.id]" routerLinkActive="active" >
         {{ cur.nome }}
     </a>
-  </div>
+</div>
+<br>
+<div>
+    <small>Página: {{ pagina }}</small>
+    <br>
+    <button class="btn btn-outline-dark" (click)="onClickPaginaAnterior()" 
+        [disabled]="pagina <= 1">Anterior</button>
+    <button class="btn btn-outline-dark" (click)="onClickProximaPagina()">Proxima</button>        
+</div>

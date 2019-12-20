@@ -26,7 +26,7 @@ import { CursoNotFoundComponent } from './curso-not-found/curso-not-found.compon
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [CursosService],
   bootstrap: [AppComponent]
