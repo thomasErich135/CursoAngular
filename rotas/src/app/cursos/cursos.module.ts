@@ -10,13 +10,11 @@ import { CursosService } from './cursos.service';
 
 import { CursosComponent } from './cursos.component';
 import { CursoDetalheComponent } from './curso-detalhe/curso-detalhe.component';
-import { CursoNotFoundComponent } from './curso-not-found/curso-not-found.component';
 
 @NgModule({
   declarations: [
     CursosComponent,
-    CursoDetalheComponent,
-    CursoNotFoundComponent
+    CursoDetalheComponent
   ],
   imports: [
     CommonModule,

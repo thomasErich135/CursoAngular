@@ -16,7 +16,7 @@ export class CursosService {
   }
 
   getCurso(id: number){
-    let curso = this.getCursos().find(curso => curso.id == id) ; 
+    let curso = this.getCursos().find(curso => curso.id == id); 
     return curso;
   }
 

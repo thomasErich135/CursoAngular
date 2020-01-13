@@ -1,10 +1,10 @@
 <br>
-<input type="text" class="form-control" placeholder="Nome do Curso"[(ngModel)]="filtro">
+<input type="text" class="form-control" placeholder="Nome do Curso" [(ngModel)]="filtro">
 <br>
 <div class="list-group">
     <a class="list-group-item list-group-item-action" 
         *ngFor="let cur of filtrarCursos()" 
-        [routerLink]="['/curso', cur.id]" routerLinkActive="active" >
+        [routerLink]="['/cursos', cur.id]" routerLinkActive="active">
         {{ cur.nome }}
     </a>
 </div>

@@ -1,0 +1,29 @@
+<div class="form-group">
+    <label for="id">ID</label>
+    <input type="text" class="form-control"
+        [(ngModel)]="aluno.id" id="id" readonly>
+</div>
+<div class="form-group">
+    <div class="row">
+        <div class="col">
+            <label for="nome">Nome</label>
+            <input type="text" class="form-control"
+                [(ngModel)]="aluno.nome" id="nome">
+        </div>
+        <div class="col">
+            <label for="sobrenome">Sobrenome</label>
+            <input type="text" class="form-control"
+                [(ngModel)]="aluno.sobrenome" id="sobrenome">
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" class="form-control"
+        [(ngModel)]="aluno.email" id="email">
+</div>
+<button
+class="btn btn-outline-dark btn-block"
+(click)="editarAluno()">
+    Salvar
+</button>

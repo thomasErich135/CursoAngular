@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -9,9 +9,8 @@ import { CursosService } from '../cursos.service';
   templateUrl: './curso-detalhe.component.html',
   styleUrls: ['./curso-detalhe.component.css']
 })
-export class CursoDetalheComponent implements OnInit {
+export class CursoDetalheComponent implements OnInit, OnDestroy {
 
-  id: number;
   inscricao: Subscription;
   curso: any;
 
@@ -22,15 +21,12 @@ export class CursoDetalheComponent implements OnInit {
 
   ngOnInit() {
     this.inscricao = this.route.params.subscribe((params: any) => {
-      
-      this.id = params['id']
-      this.curso = this.cursosService.getCurso(this.id);
+      this.curso = this.cursosService.getCurso(params['id']);
 
       if(this.curso == null){
-        this.router.navigate(['/notFound'])
+        this.router.navigate(['/not-found'])
       }
     });
-
   }
 
   ngOnDestroy(){

@@ -1,0 +1,19 @@
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <input type="text" class="form-control" placeholder="Nome do Aluno" [(ngModel)]="filtro">
+            <br>
+            <div class="list-group">
+                <a class="list-group-item list-group-item-action" 
+                    *ngFor="let alu of filtrarAluno()"
+                    [routerLink]="['/alunos', alu.id]" routerLinkActive="active">
+                    {{ alu.nome }}
+                </a>
+            </div>
+        </div>
+        <div class="col-sm">
+            <router-outlet></router-outlet>
+        </div>      
+    </div>
+</div>

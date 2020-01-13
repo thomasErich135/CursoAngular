@@ -3,26 +3,32 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
+
+import { HomeModule } from './home/home.module';
+
+import { AuthService } from './home/auth.service';
+import { AuthGuard } from './guards/auth.guard';
+
 import { AppComponent } from './app.component';
-
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-
-import { CursosModule } from './cursos/cursos.module';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HomeComponent,
-    LoginComponent
+    AppComponent, 
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,    
-    FormsModule,
-    CursosModule,
+    FormsModule,    
+    HomeModule,    
     AppRoutingModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    AuthService,
+    AuthGuard
+  ],
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }
