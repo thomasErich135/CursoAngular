@@ -1,17 +1,21 @@
-import { AlunosService } from './../alunos.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+
+import { AlunosService } from './../alunos.service';
+
+import { iFormCanDeactivate } from './../guards/iform-candeactivate';
 
 @Component({
   selector: 'app-aluno-form',
   templateUrl: './aluno-form.component.html',
   styleUrls: ['./aluno-form.component.css']
 })
-export class AlunoFormComponent implements OnInit, OnDestroy {
+export class AlunoFormComponent implements OnInit, OnDestroy, iFormCanDeactivate {
 
   inscricao: Subscription;
   aluno: any = '';
+  private formMudou: boolean = false;
 
   constructor(private route: ActivatedRoute,
     private alunoService: AlunosService,
@@ -32,5 +36,27 @@ export class AlunoFormComponent implements OnInit, OnDestroy {
 
   editarAluno() {
     this.routed.navigate(['/alunos', this.aluno.id])
+  }
+
+  onInput() {
+    this.formMudou = true;
+  }
+
+  podeMudarRota() {
+    if(this.formMudou){
+      if(confirm('Tem certeza que deseja sair dessa pagina?')) {
+        return true;
+      }        
+      else {
+        return false;
+      }        
+    }
+    else {
+      return true;
+    }
+  }
+
+  podeDesativarRota() {
+    return this.podeMudarRota();
   }
 }

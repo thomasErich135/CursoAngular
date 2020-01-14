@@ -8,7 +8,8 @@
         <div class="col">
             <label for="nome">Nome</label>
             <input type="text" class="form-control"
-                [(ngModel)]="aluno.nome" id="nome">
+                [(ngModel)]="aluno.nome" 
+                (input)="onInput()"id="nome">
         </div>
         <div class="col">
             <label for="sobrenome">Sobrenome</label>

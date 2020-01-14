@@ -6,9 +6,14 @@ import { AlunosRoutingModule } from './alunos-routing.module';
 
 import { AlunosService } from './alunos.service';
 
+import { AlunosGuard } from './guards/alunos.guard';
+import { AlunosDeactivateGuard } from './guards/alunos-deactivate.guard';
+
 import { AlunosComponent } from './alunos.component';
 import { AlunoFormComponent } from './aluno-form/aluno-form.component';
 import { AlunoDetalheComponent } from './aluno-detalhe/aluno-detalhe.component';
+import { AlunoDetalheResolver } from './guards/aluno-detalhe.resolver';
+
 
 @NgModule({
   declarations: [
@@ -22,7 +27,10 @@ import { AlunoDetalheComponent } from './aluno-detalhe/aluno-detalhe.component';
     AlunosRoutingModule
   ],
   providers: [
-    AlunosService
+    AlunosService,
+    AlunosGuard,
+    AlunosDeactivateGuard,
+    AlunoDetalheResolver
   ]
 })
 export class AlunosModule { }

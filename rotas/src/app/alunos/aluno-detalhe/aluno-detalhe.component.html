@@ -1,17 +1,10 @@
-<h5>
-    Detalhes do Aluno
-</h5>
-<p>
-    Id: {{ aluno.id }}
-</p>
-<p>
-    Nome: {{ aluno.nome + ' ' + aluno.sobrenome }}
-</p>
-<p>
-    Email: {{ aluno.email }}
-</p>
-<button
-class="btn btn-outline-dark btn-block"
-(click)="editarAluno()">
+<h5>Detalhes do Aluno</h5>
+
+<p>Id: {{ aluno.id }}</p>
+<p>Nome: {{ aluno.nome + ' ' + aluno.sobrenome }}</p>
+<p>Email: {{ aluno.email }}</p>
+
+<button class="btn btn-outline-dark btn-block"
+    (click)="editarAluno()">
     Editar
 </button>

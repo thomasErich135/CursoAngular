@@ -1,6 +1,7 @@
 
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanLoad, Route } from '@angular/router';
+
 import { Observable } from 'rxjs';
 
 import { AuthService } from './../home/auth.service';
@@ -8,7 +9,7 @@ import { AuthService } from './../home/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate{
+export class AuthGuard implements CanActivate, CanLoad{
 
   constructor(private authService: AuthService,
     private router: Router) { }
@@ -16,14 +17,29 @@ export class AuthGuard implements CanActivate{
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
-  ) : Observable<boolean> | boolean{
+  ) : Observable<boolean> | boolean {
 
+    console.log('authGuard')
+
+    return this.verificarAcesso()
+  }
+
+  private verificarAcesso() {
     if(this.authService.usuarioAutenticado()) {
       return true;
     }
     else {
       this.router.navigate(['/home'])
       return false;
-    }   
+    } 
+  }
+  
+  canLoad(
+    route: Route
+  ) : Observable<boolean> | boolean {
+
+    console.log('canLoad: verificando se o usuario pode carregar o modulo')
+
+    return this.verificarAcesso()
   }
 }
