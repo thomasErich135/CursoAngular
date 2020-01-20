@@ -1,11 +1,22 @@
 <form #f="ngForm" (ngSubmit)="onSubmit(f)">
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label for="nome">Nome</label>
-            <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" ngModel required #nome="ngModel"  
-                [ngClass]="aplicaCssErro(nome)">
+            <label for="cnpj">CNPJ</label>
+            <input type="text" class="form-control" id="cnpj" placeholder="00.000.000/0000-00" name="cnpj" ngModel required pattern="^\d{14}$|^\d{2}[.]{1}\d{3}[.]{1}\d{3}[/]{1}\d{4}[-]{1}\d{2}$" #cnpj="ngModel"
+                [ngClass]="aplicaCssErro(cnpj)"
+                (blur)="consultaCnpj($event.target.value, f)">
             <div class="invalid-feedback">
-                Nome é obrigatório.
+                CNPJ é obrigatório.
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="razaoSocial">Razão-Social</label>
+            <input type="text" class="form-control" id="razaoSocial" placeholder="Razão-Social" name="razaoSocial" ngModel required #razaoSocial="ngModel"  
+                [ngClass]="aplicaCssErro(razaoSocial)">
+            <div class="invalid-feedback">
+                Razão-Social é obrigatório.
             </div>
         </div>    
         <div class="form-group col-md-6">

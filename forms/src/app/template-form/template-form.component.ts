@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 
-import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-template-form',
@@ -10,41 +10,33 @@ import { map } from 'rxjs/operators';
 })
 export class TemplateFormComponent implements OnInit {
 
-  usuario: any = {
-    nome: '',
-    email: '',
-    endereco: {
-      cep: '',
-      numero: '',
-      complemento: '',
-      rua: '',
-      bairro: '',
-      cidade: '',
-      uf: ''
-    }
-  }
-
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
   }
 
-  onSubmit(form){    
-    console.log(form);
+  onSubmit(formulario){   
+
+    this.http.post('https://httpbin.org/post', JSON.stringify(formulario.value))
+      .subscribe(dados => {
+        console.log(dados);
+        formulario.form.reset();
+      });
   }
   
-  verificaValidTouched(campo) {
-    return campo.valid && campo.touched;
-  }
-
-  verificaInvalidTouched(campo) {
-    return campo.invalid && campo.touched;
+  verificaValidTouched(campo, validInvalid: boolean) {
+    if(validInvalid) {
+      return campo.valid && campo.touched;
+    }      
+    else {
+      return campo.invalid && campo.touched;
+    }      
   }
 
   aplicaCssErro(campo) {
     return {
-      'is-invalid': this.verificaInvalidTouched(campo),
-      'is-valid': this.verificaValidTouched(campo)
+      'is-invalid': this.verificaValidTouched(campo, false),
+      'is-valid': this.verificaValidTouched(campo, true)
    };
   }
 
@@ -57,18 +49,39 @@ export class TemplateFormComponent implements OnInit {
         var validacep = /^[0-9]{8}$/;
         //Valida o formato do CEP.
         if(validacep.test(cep)) {
-                    
-          this.resetaDadosFormulario(form);
-
+          //resta os campos input do endereço
+          this.resetaEnderecoFormulario(form);
+          //faz a inscricao e popula os valores retornado
           this.http.get(`//viacep.com.br/ws/${cep}/json`)
-            .subscribe(dados => this.populaDadosForm(dados, form));
-
-
+            .subscribe(dados => this.populaEnderecoForm(dados, form));
         }
       }
   }
 
-  populaDadosForm(dados, formulario) {
+  consultaCnpj(cnpj, form) {
+    //o consumo da API receitaws nao é possivel diretamente daqui, pois conforme politica CORS o navegador nao pode consumir
+    //dados que esteja fora do seu proprio dominio, sendo o correto, realizar uma chamada para o backed-end e do backed-end consumir a API da receitaws
+
+    // //Nova variável "cep" somente com dígitos.
+    // cnpj = cnpj.replace(/\D/g, '');
+    // //verifica se o campo cnpj possui valor informado
+    // if(cnpj != "")
+    // {
+    //   //expressao regular para validar CNPJ
+    //   var validacnpj = /^[0-9]{14}$/;
+    //   //valida o formato do CNPJ
+    //   if(validacnpj.test(cnpj))
+    //   {
+    //     //reseta os campos de cnpj
+    //     this.resetaCnpjFormulario(form);
+    //     //faz a inscricao e popula os valores retornado
+    //     this.http.get(`//receitaws.com.br/v1/cnpj/${cnpj}`)
+    //       .subscribe(dados => console.log(dados));
+    //   }
+    // }
+  }
+
+  populaEnderecoForm(dados, formulario) {
     //utilizando o setvalue somos obrigados a definir todos os campos, melhor utilizar o pacthvalue
     // form.setValue({
     //   nome: form.value.nome,
@@ -84,18 +97,23 @@ export class TemplateFormComponent implements OnInit {
     //   }
     // });
 
-    formulario.form.patchValue({
-      endereco: {
-        complemento: dados.complemento,
-        rua: dados.logradouro,
-        bairro: dados.bairro,
-        cidade: dados.localidade,
-        uf: dados.uf
-      }
-    });
+    if('erro' in dados) {
+      alert('CEP não encontrado.')
+    }
+    else {
+      formulario.form.patchValue({
+        endereco: {
+          complemento: dados.complemento,
+          rua: dados.logradouro,
+          bairro: dados.bairro,
+          cidade: dados.localidade,
+          uf: dados.uf
+        }
+      });
+    }
   }
 
-  resetaDadosFormulario(formulario)  {
+  resetaEnderecoFormulario(formulario)  {
     formulario.form.patchValue({
       endereco: {
         complemento: null,
@@ -104,6 +122,13 @@ export class TemplateFormComponent implements OnInit {
         cidade: null,
         uf: null        
       }
+    });
+  }
+
+  resetaCnpjFormulario(formulario)  {
+    formulario.form.patchValue({
+      razaoSocial: null,
+      email: null
     });
   }
 }

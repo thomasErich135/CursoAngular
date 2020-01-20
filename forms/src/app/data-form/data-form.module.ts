@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http'
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { SharedModule } from './../shared/shared.module';
 
-import { TemplateFormComponent } from './template-form.component';
+import { DataFormComponent } from './data-form.component';
 
 @NgModule({
   declarations: [
-    TemplateFormComponent    
+    DataFormComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,    
     HttpClientModule,
     SharedModule
   ]
 })
-export class TemplateFormModule { }
+export class DataFormModule { }
