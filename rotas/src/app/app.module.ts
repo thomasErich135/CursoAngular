@@ -21,8 +21,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
   imports: [
     BrowserModule,    
     FormsModule,    
-    HomeModule,    
-    AppRoutingModule
+    HomeModule,  
+    AppRoutingModule    
   ],
   providers: [
     AuthService,

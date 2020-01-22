@@ -3,8 +3,8 @@
         Detalhes do form
     </div>
     <div class="card-body">
-      <p> Form Válido: <b>{{ form.valid }}</b></p>
-      <p> Form Submetido: <b>{{ form.submitted }}</b></p>
+      <p *ngIf="form.valid != null"> Form Válido: <b>{{ form.valid }}</b></p>
+      <p *ngIf="form.submitted != null"> Form Submetido: <b>{{ form.submitted }}</b></p>
       <pre>Valores: <br><b>{{ form.value | json }}</b></pre>
     </div>
   </div>

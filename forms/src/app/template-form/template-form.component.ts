@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 
-import { Subscription } from 'rxjs';
+import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 
 @Component({
   selector: 'app-template-form',
@@ -10,7 +10,8 @@ import { Subscription } from 'rxjs';
 })
 export class TemplateFormComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private cepService: ConsultaCepService) { }
 
   ngOnInit() {
   }
@@ -40,22 +41,14 @@ export class TemplateFormComponent implements OnInit {
    };
   }
 
-  consultaCEP(cep, form) {
-      //Nova variável "cep" somente com dígitos.
-      cep = cep.replace(/\D/g, '');
-      //Verifica se campo cep possui valor informado.
-      if (cep != "") {
-        //Expressão regular para validar o CEP.
-        var validacep = /^[0-9]{8}$/;
-        //Valida o formato do CEP.
-        if(validacep.test(cep)) {
-          //resta os campos input do endereço
-          this.resetaEnderecoFormulario(form);
-          //faz a inscricao e popula os valores retornado
-          this.http.get(`//viacep.com.br/ws/${cep}/json`)
-            .subscribe(dados => this.populaEnderecoForm(dados, form));
-        }
-      }
+  consultaCEP(cep, form) {    
+    if (cep != null && cep !== '') {
+      //resta os campos input do endereço
+      this.resetaEnderecoFormulario(form);
+      //faz o subscribe no observable retornado pelo serviço de consulta cep
+      this.cepService.consultaCEP(cep)
+        .subscribe(dados => this.populaEnderecoForm(dados, form));
+    };
   }
 
   consultaCnpj(cnpj, form) {
@@ -99,6 +92,8 @@ export class TemplateFormComponent implements OnInit {
 
     if('erro' in dados) {
       alert('CEP não encontrado.')
+    } else if (Object.keys(dados).length == 0){
+      alert('CEP inválido.')
     }
     else {
       formulario.form.patchValue({

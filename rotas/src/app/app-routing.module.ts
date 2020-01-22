@@ -1,4 +1,3 @@
-
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -8,12 +7,14 @@ import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [  
   { path: 'cursos', 
-    loadChildren: 'src/app/cursos/cursos.module#CursosModule', 
+    loadChildren: () => import('src/app/cursos/cursos.module').then(m => m.CursosModule),
+    //loadChildren: 'src/app/cursos/cursos.module#CursosModule', 
     canActivate: [AuthGuard],
     canLoad: [AuthGuard]
   },
   { path: 'alunos', 
-    loadChildren: 'src/app/alunos/alunos.module#AlunosModule',
+    loadChildren: () => import('src/app/alunos/alunos.module').then(m => m.AlunosModule),
+    //loadChildren: 'src/app/alunos/alunos.module#AlunosModule',
     canActivate: [AuthGuard],
     canLoad: [AuthGuard]
   },     
