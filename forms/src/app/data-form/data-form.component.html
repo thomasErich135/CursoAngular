@@ -145,11 +145,12 @@
                 *ngFor="let item of frameworksOp; let i = index">
                 <input type="checkbox" class="form-check-input"  [formControlName]="i"
                     [ngClass]="aplicaCssErro('frameworks')"> 
-                <label class="form-check-label">{{ frameworksOp[i] }}</label> 
-                <div class="invalid-feedback">
-                    Por favor, selecione uma ou mais.
-                </div>                               
-            </div>                 
+                <label class="form-check-label">{{ frameworksOp[i] }}</label>                                                
+            </div> 
+            <div class="invalid-feedback-custom"
+                *ngIf="formulario.get('frameworks').invalid && formulario.get('frameworks').dirty">
+                Por favor, selecione uma ou mais.
+            </div>                
         </div>        
     </div>
 

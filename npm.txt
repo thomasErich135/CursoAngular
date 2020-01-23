@@ -9,3 +9,22 @@ ncu -u
 //apôs sobe para 3.7, a 3.6 ficou na beta, e entao subiu para 3.7
 //executar o npm install para instalar os novos pacotes
 npm install
+
+
+---------plugins
+Angular Language Service - Desenvolvedor Angular
+//adiciona funcionalidades ao editor com base nas diretivas e interpolação do Angular.
+Angular Snippets (Version 8) - Desenvolvedor John Papa
+//adiciona funcionalidades para criação dos templates dos principais arquivos, usando atalhos como a-ngif, a-ngfor e etc
+Atom One Dark Theme
+//defini um novo thema para o visual studio code baseado no IDE Atom
+Auto Import
+//Adiciona a funcionalidade de auto import ao declarar uma classe
+Bracket Pair Colorizer
+//Pinta os conchetes ou chaves de um metodo, classe ou função para facilitar na visualização
+HTML Snippets
+//Adiciona funcionalidades do html como fechamento de tag automaticamente
+JavaScript (ES6) code Snippets
+//Adiciona funcionalidades de atalho baseado na ecmascript 6 para linguagem JavaScript
+vscode-icons
+//atualiza os icones do vscode

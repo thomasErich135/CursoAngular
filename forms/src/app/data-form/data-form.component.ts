@@ -70,6 +70,8 @@ export class DataFormComponent implements OnInit {
       termo: [false, Validators.pattern('true')],
       frameworks: this.buildFrameworks()
     });
+
+    console.log(this.formulario.get('frameworks'));
   }
   
   buildFrameworks() {
