@@ -1,0 +1,11 @@
+npm install -g npm-check-updates
+
+//verifica as atualizações dos pacotes
+ncu
+//modifica o arquivo package.json com as novas versões
+ncu -u
+//excluir a pasta node_modules
+//Angular V8 trabalha com "typescript": "~3.5.3" ultima versão disponivel no repositorio https://www.npmjs.com/package/typescript, 
+//apôs sobe para 3.7, a 3.6 ficou na beta, e entao subiu para 3.7
+//executar o npm install para instalar os novos pacotes
+npm install
