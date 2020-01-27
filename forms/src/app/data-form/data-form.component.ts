@@ -55,9 +55,10 @@ export class DataFormComponent implements OnInit {
       cnpj: [null, [Validators.required, Validators.pattern('^[0-9]{14}$|^[0-9]{2}[.]{1}[0-9]{3}[.]{1}[0-9]{3}[/]{1}[0-9]{4}[-]{1}[0-9]{2}$')]],
       razaoSocial: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
+      confirmarEmail: [null, FormValidations.equalsTo('email')],
       endereco: this.formBuilder.group({
         numero: [null, Validators.required],
-        cep: [null, Validators.required],
+        cep: [null, [Validators.required, FormValidations.cepValidator]],
         complemento: [null],
         rua: [null, Validators.required],
         bairro: [null, Validators.required],
@@ -70,8 +71,6 @@ export class DataFormComponent implements OnInit {
       termo: [false, Validators.pattern('true')],
       frameworks: this.buildFrameworks()
     });
-
-    console.log(this.formulario.get('frameworks'));
   }
   
   buildFrameworks() {
@@ -107,7 +106,9 @@ export class DataFormComponent implements OnInit {
           this.resetarTodosFormulario();
         },
           (error: any) => alert('Erro'));
-    } else {
+    } 
+    else {
+      console.log(this.formulario);
       this.verificaValidacoesFormulario(this.formulario);
     }
   }

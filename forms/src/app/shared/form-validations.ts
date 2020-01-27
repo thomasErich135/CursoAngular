@@ -1,4 +1,4 @@
-import { FormArray } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 export class FormValidations {
     static requiredMinCheckbox(min = 1) {
@@ -18,6 +18,43 @@ export class FormValidations {
 
             return totalChecked >= min ? null : { required: true };
         };
+        return validator;
+    }
+
+    static cepValidator(control: FormControl){        
+        const cep = control.value;
+        if(cep && cep !== '') {
+
+            var validacep = /^[0-9]{8}$/g;
+            return validacep.test(cep) ? null : { cepInvalido: true }
+        }
+        return null;
+    }
+
+    static equalsTo(otherField: string){
+        const validator = (formControl: FormControl) => {
+                        
+            if(!formControl.root || !(<FormGroup>formControl.root).controls) {
+                return null;
+            }
+
+            if(otherField == null){
+                throw new Error('É necessario informar um campo.');
+            }
+
+            const field  = (<FormGroup>formControl.root).get(otherField);
+
+            if(!field) {
+                throw new Error('É necessario informar um campo.');
+            }
+
+            if(field.value !== formControl.value) {
+                return { equalsTo: otherField }
+            }
+
+            return null;
+        }      
+
         return validator;
     }
 }
