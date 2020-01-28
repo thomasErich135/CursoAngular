@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { TemplateFormModule } from './template-form/template-form.module';
@@ -18,7 +19,8 @@ import { AppComponent } from './app.component';
     ReactiveFormsModule,
     TemplateFormModule,
     DataFormModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [

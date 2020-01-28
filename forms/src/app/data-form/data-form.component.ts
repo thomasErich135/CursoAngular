@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subscription, pipe } from 'rxjs';
 
 import { ConsultaCepService } from './../shared/services/consulta-cep.service';
 import { DropdownService } from './../shared/services/dropdown.service';
 
 import { EstadosBr } from './../shared/models/estados-br';
 import { FormValidations } from '../shared/form-validations';
+import { VerificaEmailService } from './services/verifica-email.service';
+
+import { map } from 'rxjs/operators'
 
 @Component({
   selector: 'app-data-form',
@@ -29,7 +31,8 @@ export class DataFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private http: HttpClient,
     private dropDownService: DropdownService,
-    private cepService: ConsultaCepService) { }
+    private cepService: ConsultaCepService,
+    private verificaEmailService: VerificaEmailService) { }
 
   ngOnInit() {
 
@@ -44,7 +47,7 @@ export class DataFormComponent implements OnInit {
     this.newsletterOp = this.dropDownService.getNewletter();
     this.frameworksOp = this.dropDownService.getFrameworks();
 
-    // uma das maneiras de criar um data driven
+       // uma das maneiras de criar um data driven
     // this.formulario = new  FormGroup({
     //   razaoSocial: new FormControl(null),
     //   email: new FormControl(null)
@@ -53,8 +56,8 @@ export class DataFormComponent implements OnInit {
     // segunda maneiras de criar um data driven utilizando FormBuilder (melhor)
     this.formulario = this.formBuilder.group({
       cnpj: [null, [Validators.required, Validators.pattern('^[0-9]{14}$|^[0-9]{2}[.]{1}[0-9]{3}[.]{1}[0-9]{3}[/]{1}[0-9]{4}[-]{1}[0-9]{2}$')]],
-      razaoSocial: [null, Validators.required],
-      email: [null, [Validators.required, Validators.email]],
+      razaoSocial: [null, [Validators.required, Validators.minLength(3)]],
+      email: [null, [Validators.required, Validators.email], this.validarEmail.bind(this)], //poderia colocar essa validação no serviço de formValidation e passar o serviço como parametro
       confirmarEmail: [null, FormValidations.equalsTo('email')],
       endereco: this.formBuilder.group({
         numero: [null, Validators.required],
@@ -203,4 +206,11 @@ export class DataFormComponent implements OnInit {
   setarTecnologias() {
     this.formulario.get('tecnologias').setValue(['java', 'javascript', 'c#']);
   }  
+
+  validarEmail(formControl: FormControl) {
+    return this.verificaEmailService.verificarEmail(formControl.value)
+      .pipe(
+        map(emailExiste => emailExiste ? { emailExiste: true } : null)
+      );
+  }
 }

@@ -14,9 +14,10 @@
             <label for="razaoSocial">Razão-Social</label>
             <input type="text" class="form-control" id="razaoSocial" placeholder="Razão-Social"
                 formControlName="razaoSocial" [ngClass]="aplicaCssErro('razaoSocial')">
-            <div class="invalid-feedback">
+            <app-error-msg [control]="formulario.get('razaoSocial')" label="Razão Social"></app-error-msg>
+            <!-- <div class="invalid-feedback">
                 Razão-Social é obrigatório.
-            </div>
+            </div> -->
         </div>
         <div class="form-group col-md-3">
             <label for="email">Email</label>
@@ -27,6 +28,12 @@
             </div>
             <div class="invalid-feedback" *ngIf="this.formulario.get('email').hasError('email')">
                 Email inválido.
+            </div>
+            <div class="invalid-feedback" *ngIf="this.formulario.get('email').hasError('emailExiste')">
+                Email já cadastrado.
+            </div>
+            <div class="validating-feedback-custom" *ngIf="this.formulario.get('email').status === 'PENDING'">
+                Validando email...
             </div>
         </div>
         <div class="form-group col-md-3">
