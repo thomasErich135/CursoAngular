@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -20,4 +20,4 @@ import { ErrorMsgComponent } from './error-msg/error-msg.component';
   ],
   providers: []
 })
-export class SharedModule { }
+export class SharedModule {}

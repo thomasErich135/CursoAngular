@@ -1,6 +1,11 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
+import { VerificaEmailService } from '../data-form/services/verifica-email.service';
+
+import { map } from 'rxjs/operators'
+
 export class FormValidations {
+
     static requiredMinCheckbox(min = 1) {
         const validator = (formArray: FormArray) => {
 
@@ -21,16 +26,15 @@ export class FormValidations {
         return validator;
     }
 
-    static cepValidator(control: FormControl){        
+    static validarCep(control: FormControl){        
         const cep = control.value;
         if(cep && cep !== '') {
-
-            var validacep = /^[0-9]{8}$/g;
+            var validacep = /^[0-9]{8}$|^[0-9]{5}[-]{1}[0-9]{3}$/g; //refatoramos o regex para permitir cep com hifem '-' 09812-600
             return validacep.test(cep) ? null : { cepInvalido: true }
         }
         return null;
     }
-
+    
     static equalsTo(otherField: string){
         const validator = (formControl: FormControl) => {
                         
@@ -63,7 +67,10 @@ export class FormValidations {
             'required': `${fieldName} é obrigatório.`,
             'minlength': `${fieldName} precisa ter no mínimo ${validatorValue.requiredLength} caracteres.`,
             'maxlength': `${fieldName} precisa ter no máximo ${validatorValue.requiredLength} caracteres.`,
-            'cepInvalido': 'CEP inválido'
+            'cepInvalido': 'CEP inválido.',
+            'email': 'Email inválido.',
+            'emailExiste': 'Email já cadastrado.',
+            'equalsTo': `${fieldName} não é igual.`
         };
 
         return config[validatorName];

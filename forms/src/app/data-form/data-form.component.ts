@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
-import { Observable, Subscription, pipe } from 'rxjs';
-
 import { ConsultaCepService } from './../shared/services/consulta-cep.service';
 import { DropdownService } from './../shared/services/dropdown.service';
 
@@ -11,7 +9,8 @@ import { EstadosBr } from './../shared/models/estados-br';
 import { FormValidations } from '../shared/form-validations';
 import { VerificaEmailService } from './services/verifica-email.service';
 
-import { map } from 'rxjs/operators'
+import { Observable, empty } from 'rxjs';
+import { map, tap, distinctUntilChanged, switchMap } from 'rxjs/operators'
 
 @Component({
   selector: 'app-data-form',
@@ -36,22 +35,13 @@ export class DataFormComponent implements OnInit {
 
   ngOnInit() {
 
-    // this.dropDownService.getEstadosBr()
-    //   .subscribe(dados => {
-    //     this.estados = dados;
-    //   });
+    //podemos escutar eventos em qualquer lugar, porem a recomendação da equipe do angular é no ngOnInit, porém é interessante escutar os eventos apos a criação do formulario
 
     this.estados = this.dropDownService.getEstadosBr();
     this.cargos = this.dropDownService.getCargos();
     this.tecnologias = this.dropDownService.getTecnologias();
     this.newsletterOp = this.dropDownService.getNewletter();
     this.frameworksOp = this.dropDownService.getFrameworks();
-
-       // uma das maneiras de criar um data driven
-    // this.formulario = new  FormGroup({
-    //   razaoSocial: new FormControl(null),
-    //   email: new FormControl(null)
-    // })
 
     // segunda maneiras de criar um data driven utilizando FormBuilder (melhor)
     this.formulario = this.formBuilder.group({
@@ -61,7 +51,7 @@ export class DataFormComponent implements OnInit {
       confirmarEmail: [null, FormValidations.equalsTo('email')],
       endereco: this.formBuilder.group({
         numero: [null, Validators.required],
-        cep: [null, [Validators.required, FormValidations.cepValidator]],
+        cep: [null, [Validators.required, FormValidations.validarCep]],
         complemento: [null],
         rua: [null, Validators.required],
         bairro: [null, Validators.required],
@@ -74,12 +64,22 @@ export class DataFormComponent implements OnInit {
       termo: [false, Validators.pattern('true')],
       frameworks: this.buildFrameworks()
     });
+
+    this.formulario.get('endereco.cep').statusChanges
+      .pipe(
+        //o operador distinctUntilChanged, emite um observable somente quando o valor mudar
+        distinctUntilChanged(),
+        switchMap(status => status === 'VALID' ?
+          this.cepService.consultaCEP(this.formulario.get('endereco.cep').value)
+          : empty())
+      )
+      .subscribe(dados => dados ? this.populaEnderecoForm(dados) : {});
   }
-  
+
   buildFrameworks() {
     //O metodo buildFrameworks, retorna um new FormControl(false) para cada valor do array frameworksOp, definindo a função requiredMinCheckbox() como validador de pelo menos um checkbox
     const arrayFrameworks = this.frameworksOp.map(dados => new FormControl(false));
-    return this.formBuilder.array(arrayFrameworks, FormValidations.requiredMinCheckbox(1));    
+    return this.formBuilder.array(arrayFrameworks, FormValidations.requiredMinCheckbox(1));
 
     //poderia ser feito assim, mas a utilização de map segue o padrao da ecmascript
     // let arrayFrameworks = [];
@@ -100,7 +100,7 @@ export class DataFormComponent implements OnInit {
         .map((v, i) => v ? this.frameworksOp[i] : null)
         .filter(v => v !== null)
     });
- 
+
     if (this.formulario.valid) {
       this.http.post('https://httpbin.org/post', JSON.stringify(valuesSubmit))
         .subscribe(dados => {
@@ -109,7 +109,7 @@ export class DataFormComponent implements OnInit {
           this.resetarTodosFormulario();
         },
           (error: any) => alert('Erro'));
-    } 
+    }
     else {
       console.log(this.formulario);
       this.verificaValidacoesFormulario(this.formulario);
@@ -160,24 +160,9 @@ export class DataFormComponent implements OnInit {
     };
   }
 
-  consultaCEP() {
-    //Nova variável "cep" somente com dígitos.
-    const cep = this.formulario.get('endereco.cep').value;
-    if (cep != null && cep !== '') {
-      //resta os campos input do endereço
-      this.resetaEnderecoFormulario();
-      //faz o subscribe no observable retornado pelo serviço de consulta cep
-      this.cepService.consultaCEP(cep)
-        .subscribe(dados => this.populaEnderecoForm(dados));
-    };
-  }
-
   populaEnderecoForm(dados) {
     if ('erro' in dados) {
       alert('CEP não encontrado.')
-    }
-    else if (Object.keys(dados).length == 0){
-      alert('CEP inválido.')
     }
     else {
       this.formulario.patchValue({
@@ -195,7 +180,7 @@ export class DataFormComponent implements OnInit {
   }
 
   setarCargo() {
-    const cargo = { nome: 'Dev', nivel: 'Pleno', desc: 'Dev Pl'};
+    const cargo = { nome: 'Dev', nivel: 'Pleno', desc: 'Dev Pl' };
     this.formulario.get('cargo').setValue(cargo);
   }
 
@@ -205,7 +190,7 @@ export class DataFormComponent implements OnInit {
 
   setarTecnologias() {
     this.formulario.get('tecnologias').setValue(['java', 'javascript', 'c#']);
-  }  
+  }
 
   validarEmail(formControl: FormControl) {
     return this.verificaEmailService.verificarEmail(formControl.value)

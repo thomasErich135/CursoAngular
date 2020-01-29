@@ -4,9 +4,7 @@
             <label for="cnpj">CNPJ</label>
             <input type="text" class="form-control" id="cnpj" placeholder="00.000.000/0000-00" formControlName="cnpj"
                 [ngClass]="aplicaCssErro('cnpj')">
-            <div class="invalid-feedback">
-                CNPJ é obrigatório.
-            </div>
+            <app-error-msg [control]="formulario.get('cnpj')" label="CNPJ"></app-error-msg>            
         </div>
     </div>
     <div class="form-row">
@@ -15,23 +13,12 @@
             <input type="text" class="form-control" id="razaoSocial" placeholder="Razão-Social"
                 formControlName="razaoSocial" [ngClass]="aplicaCssErro('razaoSocial')">
             <app-error-msg [control]="formulario.get('razaoSocial')" label="Razão Social"></app-error-msg>
-            <!-- <div class="invalid-feedback">
-                Razão-Social é obrigatório.
-            </div> -->
         </div>
         <div class="form-group col-md-3">
             <label for="email">Email</label>
             <input type="email" class="form-control" id="email" placeholder="nome@email.com.br" formControlName="email"
                 [ngClass]="aplicaCssErro('email')">
-            <div class="invalid-feedback" *ngIf="this.formulario.get('email').hasError('required')">
-                Email é obrigatório.
-            </div>
-            <div class="invalid-feedback" *ngIf="this.formulario.get('email').hasError('email')">
-                Email inválido.
-            </div>
-            <div class="invalid-feedback" *ngIf="this.formulario.get('email').hasError('emailExiste')">
-                Email já cadastrado.
-            </div>
+            <app-error-msg [control]="formulario.get('email')" label="Email"></app-error-msg>             
             <div class="validating-feedback-custom" *ngIf="this.formulario.get('email').status === 'PENDING'">
                 Validando email...
             </div>
@@ -40,15 +27,7 @@
             <label for="confirmarEmail">Confirmar Email</label>
             <input type="confirmarEmail" class="form-control" id="confirmarEmail" placeholder="nome@email.com.br" formControlName="confirmarEmail"
                 [ngClass]="aplicaCssErro('confirmarEmail')">
-            <div class="invalid-feedback" *ngIf="this.formulario.get('confirmarEmail').hasError('required')">
-                Email é obrigatório.
-            </div>
-            <div class="invalid-feedback" *ngIf="this.formulario.get('confirmarEmail').hasError('email')">
-                Email inválido.
-            </div>
-            <div class="invalid-feedback" *ngIf="this.formulario.get('confirmarEmail').hasError('equalsTo')">
-                Email não é igual.
-            </div>
+            <app-error-msg [control]="formulario.get('confirmarEmail')" label="Email"></app-error-msg>  
         </div>
     </div>
     <div formGroupName="endereco">
@@ -57,20 +36,13 @@
                 <label for="numero">Número</label>
                 <input type="text" class="form-control" id="numero" placeholder="Número" formControlName="numero"
                     [ngClass]="aplicaCssErro('endereco.numero')">
-                <div class="invalid-feedback">
-                    Número é obrigatório.
-                </div>
+                <app-error-msg [control]="formulario.get('endereco.numero')" label="Número"></app-error-msg>  
             </div>
             <div class="form-group col-md-3">
                 <label for="cep">CEP</label>
                 <input type="text" class="form-control" id="cep" placeholder="CEP" formControlName="cep"
-                    [ngClass]="aplicaCssErro('endereco.cep')" (blur)="consultaCEP()">
-                <div class="invalid-feedback" *ngIf="this.formulario.get('endereco.cep').hasError('required')">
-                    CEP é obrigatório.
-                </div>
-                <div class="invalid-feedback" *ngIf="this.formulario.get('endereco.cep').hasError('cepInvalido')">
-                    CEP inválido.
-                </div>
+                    [ngClass]="aplicaCssErro('endereco.cep')">
+                <app-error-msg [control]="formulario.get('endereco.cep')" label="CEP"></app-error-msg>                  
             </div>
             <div class="form-group col-md-6">
                 <label for="complemento">Complemento</label>
@@ -82,44 +54,28 @@
             <label for="rua">Rua</label>
             <input type="text" class="form-control" id="rua" formControlName="rua" readonly
                 [ngClass]="aplicaCssErro('endereco.rua')">
-            <div class="invalid-feedback">
-                Rua é obrigatório.
-            </div>
+            <app-error-msg [control]="formulario.get('endereco.rua')" label="Rua"></app-error-msg>
         </div>
         <div class="form-row">
             <div class="form-group col-md-5">
                 <label for="bairro">Bairro</label>
                 <input type="text" class="form-control" id="bairro" formControlName="bairro" readonly
                     [ngClass]="aplicaCssErro('endereco.bairro')">
-                <div class="invalid-feedback">
-                    Bairro é obrigatório.
-                </div>
+                <app-error-msg [control]="formulario.get('endereco.bairro')" label="Bairro"></app-error-msg>
             </div>
             <div class="form-group col-md-5">
                 <label for="cidade">Cidade</label>
                 <input type="text" class="form-control" id="cidade" formControlName="cidade" readonly
-                    [ngClass]="aplicaCssErro('endereco.cidade')">
-                <div class="invalid-feedback">
-                    Cidade é obrigatório.
-                </div>
+                    [ngClass]="aplicaCssErro('endereco.cidade')">               
+                <app-error-msg [control]="formulario.get('endereco.cidade')" label="Cidade"></app-error-msg>
             </div>
             <div class="form-group col-md-2">
                 <label for="uf">UF</label>
                 <select class="custom-select" formControlName="uf" id="uf" [ngClass]="aplicaCssErro('endereco.uf')">
                     <option *ngFor="let estado of estados | async" [value]="estado.sigla">{{ estado.nome }}</option>
                 </select>
-                <div class="invalid-feedback">
-                    UF é obrigatório.
-                </div>
+                <app-error-msg [control]="formulario.get('endereco.uf')" label="UF"></app-error-msg>
             </div>
-            <!-- <div class="form-group col-md-2">
-                <label for="uf">UF</label>
-                <input type="text" class="form-control" id="uf" formControlName="uf" readonly
-                    [ngClass]="aplicaCssErro('endereco.uf')"> 
-                <div class="invalid-feedback">
-                    UF é obrigatório.
-                </div>
-            </div> -->
         </div>
     </div>
     <div class="form-group">
@@ -127,20 +83,16 @@
         <select class="custom-select" formControlName="cargo" id="cargo" [compareWith]="compararCargos"
             [ngClass]="aplicaCssErro('cargo')">
             <option *ngFor="let cargo of cargos" [ngValue]="cargo">{{ cargo.desc }}</option>
-        </select>
-        <div class="invalid-feedback">
-            Cargo é obrigatório.
-        </div>
+        </select>      
+        <app-error-msg [control]="formulario.get('cargo')" label="Cargo"></app-error-msg>
     </div>
     <div class="form-group">
         <label for="tecnologias">Tecnologias</label>
         <select multiple class="custom-select" formControlName="tecnologias" id="tecnologias"
             [ngClass]="aplicaCssErro('tecnologias')">
             <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia.nome">{{ tecnologia.desc }}</option>
-        </select>
-        <div class="invalid-feedback">
-            Tecnologia é obrigatório.
-        </div>
+        </select>       
+        <app-error-msg [control]="formulario.get('tecnologias')" label="Tecnologia"></app-error-msg>
     </div>
     <div class="form-group">
         <label for="newsletter">Newsletter</label>
@@ -158,7 +110,8 @@
             <label for="termo" class="form-check-label">Aceito os termos</label>   
             <div class="invalid-feedback">
                 Por favor, aceite os termos.
-            </div>          
+            </div>  
+                    
         </div>           
     </div>
     <div class="form-group">

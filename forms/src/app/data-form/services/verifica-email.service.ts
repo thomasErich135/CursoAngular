@@ -10,7 +10,7 @@ export class VerificaEmailService {
 
   constructor(private http: HttpClient) { }
 
-  verificarEmail(email: string) {
+  verificarEmail(email: string) {    
     return this.http.get('assets/dados/verificarEmail.json')
       .pipe(
         //faz a chamada apos alguns segundos
