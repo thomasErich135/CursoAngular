@@ -46,6 +46,7 @@ export class DataFormComponent implements OnInit {
     // segunda maneiras de criar um data driven utilizando FormBuilder (melhor)
     this.formulario = this.formBuilder.group({
       cnpj: [null, [Validators.required, Validators.pattern('^[0-9]{14}$|^[0-9]{2}[.]{1}[0-9]{3}[.]{1}[0-9]{3}[/]{1}[0-9]{4}[-]{1}[0-9]{2}$')]],
+      nome: [null],
       razaoSocial: [null, [Validators.required, Validators.minLength(3)]],
       email: [null, [Validators.required, Validators.email], this.validarEmail.bind(this)], //poderia colocar essa validação no serviço de formValidation e passar o serviço como parametro
       confirmarEmail: [null, FormValidations.equalsTo('email')],
@@ -67,11 +68,15 @@ export class DataFormComponent implements OnInit {
 
     this.formulario.get('endereco.cep').statusChanges
       .pipe(
-        //o operador distinctUntilChanged, emite um observable somente quando o valor mudar
+        //o operador distinctUntilChanged, emite um observable somente quando o valor mudar  
         distinctUntilChanged(),
-        switchMap(status => status === 'VALID' ?
-          this.cepService.consultaCEP(this.formulario.get('endereco.cep').value)
-          : empty())
+        switchMap(status => {
+          this.resetaEnderecoFormulario();
+          return status === 'VALID' ?
+            this.cepService.consultaCEP(this.formulario.get('endereco.cep').value)
+            : empty()
+        }),
+        //tap(console.log)
       )
       .subscribe(dados => dados ? this.populaEnderecoForm(dados) : {});
   }
