@@ -1,5 +1,6 @@
+---------ncu
+//instala o ncu ou npm check update
 npm install -g npm-check-updates
-
 //verifica as atualizações dos pacotes
 ncu
 //modifica o arquivo package.json com as novas versões
@@ -10,6 +11,15 @@ ncu -u
 //executar o npm install para instalar os novos pacotes
 npm install
 
+---------ng update
+//instala a ultima versão do angular/cli
+npm install -g @angular/cli
+//executar o comando acima dentro da pasta do projeto para verificar as possiveis atualizações
+ng update
+//processar os comandos solicitados para atualizar os pacotes sugeridos
+
+---------node.js
+//para atualizar no windows, realizar o download da ultima versão no site https://nodejs.org/en/ e então instalar.
 
 ---------plugins
 Angular Language Service - Desenvolvedor Angular
