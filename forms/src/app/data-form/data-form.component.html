@@ -69,15 +69,16 @@
                 <app-error-msg [control]="formulario.get('endereco.bairro')" label="Bairro"></app-error-msg>
             </div>
             <div class="form-group col-md-5">
-                <label for="cidade">Cidade</label>
-                <input type="text" class="form-control" id="cidade" formControlName="cidade" readonly
-                    [ngClass]="aplicaCssErro('endereco.cidade')">               
+                <label for="uf">Cidade</label>
+                <select class="custom-select" formControlName="cidade" id="cidade" [ngClass]="aplicaCssErro('endereco.cidade')">
+                    <option *ngFor="let cidade of cidades" [value]="cidade.nome">{{ cidade.nome }}</option>
+                </select>
                 <app-error-msg [control]="formulario.get('endereco.cidade')" label="Cidade"></app-error-msg>
             </div>
             <div class="form-group col-md-2">
                 <label for="uf">UF</label>
                 <select class="custom-select" formControlName="uf" id="uf" [ngClass]="aplicaCssErro('endereco.uf')">
-                    <option *ngFor="let estado of estados | async" [value]="estado.sigla">{{ estado.nome }}</option>
+                    <option *ngFor="let estado of estados" [value]="estado.sigla">{{ estado.nome }}</option>
                 </select>
                 <app-error-msg [control]="formulario.get('endereco.uf')" label="UF"></app-error-msg>
             </div>

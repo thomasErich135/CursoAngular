@@ -1,27 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { ConsultaCepService } from './../shared/services/consulta-cep.service';
 import { DropdownService } from './../shared/services/dropdown.service';
 
 import { EstadosBr } from './../shared/models/estados-br';
+import { CidadesBr } from '../shared/models/cidades-br';
+
 import { FormValidations } from '../shared/form-validations';
 import { VerificaEmailService } from './services/verifica-email.service';
 
+import { BaseFormComponent } from './../shared/base-form/base-form.component';
+
 import { Observable, empty } from 'rxjs';
-import { map, tap, distinctUntilChanged, switchMap } from 'rxjs/operators'
+import { map, distinctUntilChanged, switchMap, tap } from 'rxjs/operators'
 
 @Component({
   selector: 'app-data-form',
   templateUrl: './data-form.component.html',
   styleUrls: ['./data-form.component.css']
 })
-export class DataFormComponent implements OnInit {
+export class DataFormComponent extends BaseFormComponent implements OnInit {
 
-  formulario: FormGroup;
-  //estados: EstadosBr[];
-  estados: Observable<EstadosBr[]>
+  //formulario: FormGroup;
+  estados: EstadosBr[];
+  //estados: Observable<EstadosBr[]>
+  cidades: CidadesBr[]
   cargos: any[];
   tecnologias: any[];
   newsletterOp: any[];
@@ -31,13 +36,16 @@ export class DataFormComponent implements OnInit {
     private http: HttpClient,
     private dropDownService: DropdownService,
     private cepService: ConsultaCepService,
-    private verificaEmailService: VerificaEmailService) { }
+    private verificaEmailService: VerificaEmailService) {
+    super(); //precisa ser chamado quando utilizado extends, para fazer a chamada do componente extend, neste caso BaseFormComponent
+  }
 
   ngOnInit() {
 
     //podemos escutar eventos em qualquer lugar, porem a recomendação da equipe do angular é no ngOnInit, porém é interessante escutar os eventos apos a criação do formulario
+    this.dropDownService.getEstadosBr()
+      .subscribe(dados => this.estados = dados);
 
-    this.estados = this.dropDownService.getEstadosBr();
     this.cargos = this.dropDownService.getCargos();
     this.tecnologias = this.dropDownService.getTecnologias();
     this.newsletterOp = this.dropDownService.getNewletter();
@@ -46,7 +54,7 @@ export class DataFormComponent implements OnInit {
     // segunda maneiras de criar um data driven utilizando FormBuilder (melhor)
     this.formulario = this.formBuilder.group({
       cnpj: [null, [Validators.required, Validators.pattern('^[0-9]{14}$|^[0-9]{2}[.]{1}[0-9]{3}[.]{1}[0-9]{3}[/]{1}[0-9]{4}[-]{1}[0-9]{2}$')]],
-      nome: [null],
+      nome: [null, Validators.required],
       razaoSocial: [null, [Validators.required, Validators.minLength(3)]],
       email: [null, [Validators.required, Validators.email], this.validarEmail.bind(this)], //poderia colocar essa validação no serviço de formValidation e passar o serviço como parametro
       confirmarEmail: [null, FormValidations.equalsTo('email')],
@@ -70,6 +78,7 @@ export class DataFormComponent implements OnInit {
       .pipe(
         //o operador distinctUntilChanged, emite um observable somente quando o valor mudar  
         distinctUntilChanged(),
+        //o operador switchMap altera o Observable atual pelo retornado no metodo cepService.consultaCEP, e então faz o subscribe no novo Observable
         switchMap(status => {
           this.resetaEnderecoFormulario();
           return status === 'VALID' ?
@@ -79,6 +88,16 @@ export class DataFormComponent implements OnInit {
         //tap(console.log)
       )
       .subscribe(dados => dados ? this.populaEnderecoForm(dados) : {});
+
+      this.formulario.get('endereco.uf').valueChanges
+        .pipe(
+          map(siglaUf => this.estados.filter(uf => uf.sigla == siglaUf)),
+          map(uf => uf && uf.length == 1 ? uf[0].id : empty()),
+          switchMap((idUf: number) =>
+            this.dropDownService.getCidadesBr(idUf)            
+          )
+        )
+        .subscribe(cidades => this.cidades = cidades);
   }
 
   buildFrameworks() {
@@ -94,7 +113,7 @@ export class DataFormComponent implements OnInit {
     // return arrayFrameworks;
   }
 
-  onSubmit() {
+  submit() {
     //copia os valores do formulario para um objeto vazio
     let valuesSubmit = Object.assign({}, this.formulario.value);
     //faz uma nova copia dos objetos, realizando o map onde tem a função de interar os valores do campo framerworks, passando pela condição de verdadeiro, caso seja 
@@ -106,36 +125,14 @@ export class DataFormComponent implements OnInit {
         .filter(v => v !== null)
     });
 
-    if (this.formulario.valid) {
-      this.http.post('https://httpbin.org/post', JSON.stringify(valuesSubmit))
-        .subscribe(dados => {
-          console.log(dados);
-          //reseta todos os campos do formulario
-          this.resetarTodosFormulario();
-        },
-          (error: any) => alert('Erro'));
-    }
-    else {
-      console.log(this.formulario);
-      this.verificaValidacoesFormulario(this.formulario);
-    }
-  }
-
-  verificaValidacoesFormulario(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach(campo => {
-      const controle = formGroup.get(campo);
-      controle.markAsDirty();
-
-      if (controle instanceof FormGroup) {
-        this.verificaValidacoesFormulario(controle);
-      }
-    });
-  }
-
-  resetarTodosFormulario() {
-    this.formulario.reset();
-    console.log('reset');
-  }
+    this.http.post('https://httpbin.org/post', JSON.stringify(valuesSubmit))
+      .subscribe(dados => {
+        console.log(dados);
+        //reseta todos os campos do formulario
+        this.resetarTodosFormulario();
+      },
+        (error: any) => alert('Erro'));
+  }  
 
   resetaEnderecoFormulario() {
     this.formulario.patchValue({
@@ -147,23 +144,7 @@ export class DataFormComponent implements OnInit {
         uf: null
       }
     });
-  }
-
-  verificaValidTouched(campo: string, validInvalid: boolean) {
-    if (validInvalid) {
-      return this.formulario.get(campo).valid && (this.formulario.get(campo).touched || this.formulario.get(campo).dirty);
-    }
-    else {
-      return this.formulario.get(campo).invalid && (this.formulario.get(campo).touched || this.formulario.get(campo).dirty);
-    }
-  }
-
-  aplicaCssErro(campo: string) {
-    return {
-      'is-invalid': this.verificaValidTouched(campo, false),
-      'is-valid': this.verificaValidTouched(campo, true)
-    };
-  }
+  }    
 
   populaEnderecoForm(dados) {
     if ('erro' in dados) {

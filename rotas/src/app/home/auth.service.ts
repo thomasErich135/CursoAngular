@@ -15,6 +15,7 @@ export class AuthService {
   constructor(private routed: Router) { }
 
   fazerLogin(usuario: Usuario){
+    console.log(usuario);
     if(usuario.usuario === 'usuario@email.com' &&
       usuario.password === '123456') {
         this.usuarioAuth = true;

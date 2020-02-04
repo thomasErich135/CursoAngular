@@ -11,15 +11,18 @@ import { Usuario } from './usuario';
 })
 export class HomeComponent implements OnInit {
 
-  private usuario: Usuario = new Usuario();
+  private _usuario: Usuario = new Usuario();
 
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
   }
 
-  fazerLogin() {
-    this.authService.fazerLogin(this.usuario);
+  public get usuario(): Usuario {
+    return this._usuario;
   }
 
+  private fazerLogin() {
+    this.authService.fazerLogin(this.usuario);
+  }
 }
