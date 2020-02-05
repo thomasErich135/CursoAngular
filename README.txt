@@ -38,3 +38,9 @@ JavaScript (ES6) code Snippets
 //Adiciona funcionalidades de atalho baseado na ecmascript 6 para linguagem JavaScript
 vscode-icons
 //atualiza os icones do vscode
+rest client
+//funcionalidade para testar os end-point de api
+
+---------simulando JSON server
+// procurar no site npm json-server
+npm install -g json-server
