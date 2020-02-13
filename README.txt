@@ -1,46 +1,84 @@
 ---------ncu
 //instala o ncu ou npm check update
-npm install -g npm-check-updates
+    npm install -g npm-check-updates
 //verifica as atualizações dos pacotes
-ncu
+    ncu
 //modifica o arquivo package.json com as novas versões
-ncu -u
+    ncu -u
 //excluir a pasta node_modules
 //Angular V8 trabalha com "typescript": "~3.5.3" ultima versão disponivel no repositorio https://www.npmjs.com/package/typescript, 
 //apôs sobe para 3.7, a 3.6 ficou na beta, e entao subiu para 3.7
 //executar o npm install para instalar os novos pacotes
-npm install
+    npm install
 
 ---------ng update
 //instala a ultima versão do angular/cli
-npm install -g @angular/cli
+    npm install -g @angular/cli
 //executar o comando acima dentro da pasta do projeto para verificar as possiveis atualizações
-ng update
+    ng update
 //processar os comandos solicitados para atualizar os pacotes sugeridos
 
 ---------node.js
 //para atualizar no windows, realizar o download da ultima versão no site https://nodejs.org/en/ e então instalar.
 
 ---------plugins
-Angular Language Service - Desenvolvedor Angular
+    Angular Language Service - Desenvolvedor Angular
 //adiciona funcionalidades ao editor com base nas diretivas e interpolação do Angular.
-Angular Snippets (Version 8) - Desenvolvedor John Papa
+    Angular Snippets (Version 8) - Desenvolvedor John Papa
 //adiciona funcionalidades para criação dos templates dos principais arquivos, usando atalhos como a-ngif, a-ngfor e etc
-Atom One Dark Theme
+    Atom One Dark Theme
 //defini um novo thema para o visual studio code baseado no IDE Atom
-Auto Import
+    Auto Import
 //Adiciona a funcionalidade de auto import ao declarar uma classe
-Bracket Pair Colorizer
+    Bracket Pair Colorizer
 //Pinta os conchetes ou chaves de um metodo, classe ou função para facilitar na visualização
-HTML Snippets
+    HTML Snippets
 //Adiciona funcionalidades do html como fechamento de tag automaticamente
-JavaScript (ES6) code Snippets
+    JavaScript (ES6) code Snippets
 //Adiciona funcionalidades de atalho baseado na ecmascript 6 para linguagem JavaScript
-vscode-icons
+    vscode-icons
 //atualiza os icones do vscode
-rest client
+    rest client
 //funcionalidade para testar os end-point de api
+//criar arquivo com o nome exemplo.http na pasta root do projeto
+//exemplos de commandos
+    GET http://localhost:3000/cursos
+
+    ###
+
+    GET http://localhost:3000/cursos/1
+
+    ###
+
+    POST http://localhost:3000/cursos HTTP/1.1
+    content-type: application/json
+
+    {
+        "curso": "ANGULAR"
+    }
+
+    ###
+
+    PUT http://localhost:3000/cursos/2 HTTP/1.1
+    content-type: application/json
+
+    {
+        "curso": "C++"
+    }
+
+    ###
+
+    DELETE http://localhost:3000/cursos/1
 
 ---------simulando JSON server
 // procurar no site npm json-server
-npm install -g json-server
+    npm install -g json-server
+//criar arquivo do banco de dados na pasta root do projeto com o nome db.json
+//exemplo:
+    {
+        "cursos": [
+        { "id": 1, "curso": "Angular" }
+        ]
+    }
+//executar o servidor com o comando
+    json-server --watch db.json
