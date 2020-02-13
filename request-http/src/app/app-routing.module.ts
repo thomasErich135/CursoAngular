@@ -20,12 +20,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    scrollPositionRestoration: 'enabled',
-    malformedUriErrorHandler: (error: URIError, urlSerializer: UrlSerializer, url: string) => {      
-      return urlSerializer.parse('/not-found')
-    }
-  })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
