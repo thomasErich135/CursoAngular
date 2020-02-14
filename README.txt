@@ -82,3 +82,19 @@
     }
 //executar o servidor com o comando
     json-server --watch db.json
+
+---------Opções interessantes para app-routing.module.ts
+//scrollPositionRestoration faz com que quando o usuario navegar para uma pagina e clicar em voltar, volte para a mesma altura da pagina que havia saido
+//malformedUriErrorHandler função que podemos utilizar para capturar url's mal formatadas e então fazer um pars, ou seja, substituir a informação errada pela certa
+    @NgModule({
+    imports: [RouterModule.forRoot(routes, {
+        scrollPositionRestoration: 'enabled', 
+        malformedUriErrorHandler: (error: URIError, urlSerializer: UrlSerializer, url: string) => {      
+        return urlSerializer.parse('/not-found')
+        }
+    })],
+    exports: [RouterModule]
+    })
+    export class AppRoutingModule {}
+
+
