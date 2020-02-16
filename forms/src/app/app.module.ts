@@ -9,6 +9,9 @@ import { DataFormModule } from './data-form/data-form.module';
 
 import { AppComponent } from './app.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -20,7 +23,9 @@ import { AppComponent } from './app.component';
     TemplateFormModule,
     DataFormModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    CollapseModule.forRoot(),
   ],
   providers: [],
   bootstrap: [
