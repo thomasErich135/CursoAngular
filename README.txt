@@ -97,4 +97,25 @@
     })
     export class AppRoutingModule {}
 
+---------EntryComponents
+//Declarar o component no entryComponts para informar ao Angular que o componente sera instanciado em execução, ou seja
+//não será utilizado em nenhum roteamento ou template
+@NgModule({
+  declarations: [
+    NotFoundComponent,
+    AlertModalComponent
+  ],
+  imports: [
+    CommonModule
+  ],
+  exports: [
+    NotFoundComponent,
+    AlertModalComponent
+  ],
+  entryComponents: [
+    AlertModalComponent
+  ]
+})
+export class SharedModule { }
+
 
