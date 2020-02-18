@@ -70,6 +70,7 @@
 
     DELETE http://localhost:3000/cursos/1
 
+
 ---------simulando JSON server
 // procurar no site npm json-server
     npm install -g json-server
@@ -117,5 +118,14 @@
   ]
 })
 export class SharedModule { }
+
+--------PreserveWhitespaces
+//Interessante colocar "preserveWhitespaces: true" no componente pare manter os espaços em brancos entre botoes por exemplo
+@Component({
+  selector: 'app-cursos-lista',
+  templateUrl: './cursos-lista.component.html',
+  styles: [],
+  preserveWhitespaces: true
+})
 
 

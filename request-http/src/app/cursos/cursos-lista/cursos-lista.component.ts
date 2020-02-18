@@ -18,7 +18,6 @@ export class CursosListaComponent implements OnInit {
 
   //Notação filandesa, $ identificado que a variavel é um Observable
   cursos$: Observable<Curso[]>;
-  error$ = new Subject<boolean>();  
 
   constructor(private cursosService: CursosService,
     private alertModalService: AlertModalService) {}
@@ -28,7 +27,6 @@ export class CursosListaComponent implements OnInit {
   }
 
   onRefresh() {
-    this.error$.next(false);
     this.cursos$ = this.cursosService.getCursos()
       .pipe(
         catchError(error => {

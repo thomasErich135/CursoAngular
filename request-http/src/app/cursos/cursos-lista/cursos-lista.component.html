@@ -4,7 +4,7 @@
             <h5>Relação de Cursos Disponíveis</h5>
         </div>
         <span class="float-right">
-            <button type="button" class="btn btn-outline-success btn-sm">Novo Curso</button>
+            <button type="button" class="btn btn-outline-success btn-sm" [routerLink]="['/cursos/novo']">Novo Curso</button>
             <button type="button" class="btn btn-outline-secondary btn-sm" (click)="onRefresh()">Atualizar</button>
         </span>
     </div>
@@ -33,16 +33,11 @@
                 </tbody>
             </table>
             <ng-template #loading>
-                <div *ngIf="error$ | async; else loadingNoError">
-                    Erro ao carregar cursos.
-                </div>
-                <ng-template #loadingNoError>
-                    <div class="text-center">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
                     </div>
-                </ng-template>
+                </div>
             </ng-template>
         </div>
     </div>

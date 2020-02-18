@@ -19,6 +19,10 @@
     {
       "curso": "CSS",
       "id": 5
+    },
+    {
+      "curso": "Python",
+      "id": 6
     }
   ]
 }
