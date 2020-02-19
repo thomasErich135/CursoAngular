@@ -38,6 +38,8 @@
 //Adiciona funcionalidades de atalho baseado na ecmascript 6 para linguagem JavaScript
     vscode-icons
 //atualiza os icones do vscode
+    IntelliSense for CSS class names in HTML
+//Adiciona funcionalidade de intellisense para classes css ao escrever um template html
     rest client
 //funcionalidade para testar os end-point de api
 //criar arquivo com o nome exemplo.http na pasta root do projeto
