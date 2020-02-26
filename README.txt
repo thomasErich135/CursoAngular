@@ -117,4 +117,6 @@
     https://www.nginx.com/
 //Servidor para compilar imagem Docker
 
-
+--------Configurações NGINX
+//https://github.com/DanWahlin/Angular-Core-Concepts/blob/master/config/nginx.conf
+//Configurações interessantes para o servidor NGINX
