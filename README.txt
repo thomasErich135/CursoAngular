@@ -9,7 +9,7 @@
 //Angular V8 trabalha com "typescript": "~3.5.3" ultima versão disponivel no repositorio https://www.npmjs.com/package/typescript, 
 //apôs sobe para 3.7, a 3.6 ficou na beta, e entao subiu para 3.7
 //executar o npm install para instalar os novos pacotes
-    npm install
+    npm install 
 
 ---------ng update
 //instala a ultima versão do angular/cli
@@ -30,7 +30,7 @@
 //defini um novo thema para o visual studio code baseado no IDE Atom
     Auto Import
 //Adiciona a funcionalidade de auto import ao declarar uma classe
-    Bracket Pair Colorizer
+    Bracket Pair Colorizer 2
 //Pinta os conchetes ou chaves de um metodo, classe ou função para facilitar na visualização
     HTML Snippets
 //Adiciona funcionalidades do html como fechamento de tag automaticamente
@@ -71,6 +71,10 @@
     ###
 
     DELETE http://localhost:3000/cursos/1
+    Docker from microsoft
+//extenções para trabalhar com imagens Docker
+    Azure Tools
+//extenções para trabalhar com microsoft Azure
 
 
 ---------simulando JSON server
