@@ -113,6 +113,16 @@
   preserveWhitespaces: true
 })
 
+--------Firebase
+    npm install -g firebase-tools
+    firebase login
+//Serviço de hosting do firebase Google
+//Para fazer o deploy
+//se for a primeira vez
+    ng add @angular/fire
+//deploy
+    ng deploy
+
 --------Servidor HTTP NGINX
     https://www.nginx.com/
 //Servidor para compilar imagem Docker
