@@ -23,6 +23,10 @@
     {
       "curso": "Python",
       "id": 6
+    },
+    {
+      "curso": "SASS",
+      "id": 7
     }
   ]
 }
