@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common'
@@ -6,6 +7,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { AlertModalService } from './../../shared/alert-modal/alert-modal.service';
 import { CursosService } from '../cursos.service';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-curso-form',
@@ -23,11 +25,32 @@ export class CursoFormComponent implements OnInit {
     private modalService: BsModalService,
     private cursosService: CursosService,
     private alertModalService: AlertModalService,
-    private location: Location) { }
+    private location: Location,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+
+    this.route.params
+      .pipe(
+        map((params: any) => params['id']),
+        switchMap(id => this.cursosService.getCursoById(id))
+      )  
+      .subscribe(curso => this.updateForm(curso));
+
+      // concatMap => ordem da requisição importa
+      // mergeMap => ordem não importa
+      // exhaustMap => casos de login (vai faz a requisição e espera a resposta)
+
     this.form = this.formBuilder.group({
+      id: [null],
       nomeCurso: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]]
+    })
+  }
+
+  updateForm(curso) {
+    this.form.patchValue({
+      nomeCurso:  curso.curso,
+      id: curso.id
     })
   }
 

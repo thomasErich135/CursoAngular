@@ -5,8 +5,9 @@ import { AlertModalService } from './../../shared/alert-modal/alert-modal.servic
 
 import { Curso } from 'src/app/shared/interfaces/curso';
 
-import { Observable, empty, Subject } from 'rxjs';
+import { Observable, empty } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cursos-lista',
@@ -16,11 +17,13 @@ import { catchError } from 'rxjs/operators';
 })
 export class CursosListaComponent implements OnInit {
 
-  //Notação filandesa, $ identificado que a variavel é um Observable
+  //Notação filandesa, $ identifica que a variavel é um Observable
   cursos$: Observable<Curso[]>;
 
   constructor(private cursosService: CursosService,
-    private alertModalService: AlertModalService) {}
+    private alertModalService: AlertModalService,
+    private router: Router,
+    private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.onRefresh();
@@ -51,4 +54,13 @@ export class CursosListaComponent implements OnInit {
    this.alertModalService.showAlertDanger('Erro ao carregar cursos.');
   }
 
+  onEdit(id: number) {
+    this.router.navigate(['editar/', id], { relativeTo: this.route });
+    // ou pode ser feito do jeito abaixo.
+    // this.router.navigate(['cursos/editar/', id]);
+  }
+
+  onDelete(id: number) {
+
+  }
 }

@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment'
 import { Curso } from '../shared/interfaces/curso';
 
 import { Observable } from 'rxjs';
-import { delay, take } from 'rxjs/operators';
+import { delay, take, retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +26,13 @@ export class CursosService {
 
   postCurso(Curso) {
     return this.http.post(`${this.API}/cursos`, Curso)
+      .pipe(
+        take(1)
+      );
+  }
+
+  getCursoById(id: number) {
+    return this.http.get<Curso>(`${this.API}/cursos/${id}`)
       .pipe(
         take(1)
       );

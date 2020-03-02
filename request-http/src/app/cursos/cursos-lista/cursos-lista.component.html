@@ -25,8 +25,8 @@
                         <td>{{ curso.curso }}</td>
                         <td>
                             <span class="float-right">
-                                <button type="button" class="btn btn-outline-dark btn-sm">Atualizar</button>
-                                <button type="button" class="btn btn-outline-danger btn-sm">Remover</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm" (click)="onEdit(curso.id)">Atualizar</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" (click)="onDelete(curso.id)">Remover</button>
                             </span>
                         </td>
                     </tr>
