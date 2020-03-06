@@ -6,7 +6,6 @@ import { AlunosService } from './../alunos.service';
 
 import { Aluno } from '../aluno';
 
-
 @Component({
   selector: 'app-aluno-detalhe',
   templateUrl: './aluno-detalhe.component.html',

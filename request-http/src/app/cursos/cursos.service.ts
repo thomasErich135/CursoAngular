@@ -24,15 +24,36 @@ export class CursosService {
       );
   }
 
-  postCurso(Curso) {
-    return this.http.post(`${this.API}/cursos`, Curso)
+  getCursoById(id: number) {
+    return this.http.get<Curso>(`${this.API}/cursos/${id}`)
       .pipe(
         take(1)
       );
   }
 
-  getCursoById(id: number) {
-    return this.http.get<Curso>(`${this.API}/cursos/${id}`)
+  private postCurso(curso) {
+    return this.http.post(`${this.API}/cursos`, curso)
+      .pipe(
+        take(1)
+      );
+  }
+
+  private putCurso(curso) {
+    return this.http.put(`${this.API}/cursos/${curso.id}`, curso)
+      .pipe(
+        take(1)
+      );
+  }
+
+  save(curso) {
+    if(curso.id) {
+      return this.putCurso(curso);
+    }
+    return this.postCurso(curso);
+  }
+
+  deleteCurso(id: number) {
+    return this.http.delete(`${this.API}/cursos/${id}`)
       .pipe(
         take(1)
       );

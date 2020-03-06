@@ -130,3 +130,8 @@
 --------Configurações NGINX
 //https://github.com/DanWahlin/Angular-Core-Concepts/blob/master/config/nginx.conf
 //Configurações interessantes para o servidor NGINX
+
+
+--------Usar o guarda de rota Resolver
+//utilizado para carregar o objeto antes de inicializar o componente.
+//exemplo em angularApp/request-app/cursos/guards

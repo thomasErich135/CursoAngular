@@ -26,7 +26,7 @@
                         <td>
                             <span class="float-right">
                                 <button type="button" class="btn btn-outline-dark btn-sm" (click)="onEdit(curso.id)">Atualizar</button>
-                                <button type="button" class="btn btn-outline-danger btn-sm" (click)="onDelete(curso.id)">Remover</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" (click)="onDelete(curso, template)">Remover</button>
                             </span>
                         </td>
                     </tr>
@@ -42,3 +42,20 @@
         </div>
     </div>
 </div>
+
+<ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Excluir</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      Deseja realmente excluir o curso?
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-success" [routerLink]="['/cursos']"
+        (click)="onConfirmDelete()">Sim</button>
+      <button type="button" class="btn btn-outline-danger" (click)="modalRef.hide()">Não</button>
+    </div>
+  </ng-template>
