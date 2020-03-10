@@ -3,21 +3,23 @@ import { CommonModule } from '@angular/common';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AlertModalComponent } from './alert-modal/alert-modal.component';
+import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     NotFoundComponent,
-    AlertModalComponent
+    AlertModalComponent,
+    ConfirmModalComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   exports: [
     NotFoundComponent,
-    AlertModalComponent
-  ],
-  entryComponents: [
-    AlertModalComponent
+    AlertModalComponent,
+    ConfirmModalComponent
   ]
 })
 export class SharedModule { }

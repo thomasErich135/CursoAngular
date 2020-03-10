@@ -17,20 +17,8 @@
       "id": 4
     },
     {
-      "curso": "CSS",
+      "curso": "Css 3",
       "id": 5
-    },
-    {
-      "curso": "Python",
-      "id": 6
-    },
-    {
-      "curso": "SASS",
-      "id": 7
-    },
-    {
-      "curso": "Scrum teste",
-      "id": 8
     }
   ]
 }

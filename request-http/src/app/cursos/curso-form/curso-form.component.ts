@@ -1,5 +1,5 @@
-import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common'
 
@@ -7,7 +7,10 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { AlertModalService } from './../../shared/alert-modal/alert-modal.service';
 import { CursosService } from '../cursos.service';
-import { map, switchMap } from 'rxjs/operators';
+
+import { take, map } from 'rxjs/operators';
+
+import { EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-curso-form',
@@ -22,11 +25,11 @@ export class CursoFormComponent implements OnInit {
   modalRef: BsModalRef;
 
   constructor(private formBuilder: FormBuilder,
-    private modalService: BsModalService,
     private cursosService: CursosService,
     private alertModalService: AlertModalService,
     private location: Location,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
 
@@ -48,14 +51,6 @@ export class CursoFormComponent implements OnInit {
       nomeCurso: [curso.curso, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]]
     })
   }
-
-  // updateForm(curso) {
-  //   console.log(curso);
-  //   this.form.patchValue({
-  //     nomeCurso:  curso.curso,
-  //     id: curso.id
-  //   })
-  // }
 
   hasError(field: string) {
     return this.form.get(field).errors;
@@ -90,8 +85,18 @@ export class CursoFormComponent implements OnInit {
     }
   }
 
-  onCancel(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  onCancel() {
+    const result$ = this.alertModalService.showConfirm('Confirmação', 'Existem alterações não salvas, deseja cancelar?');
+    result$.asObservable()
+      .pipe(
+        take(1),
+        map(result => result ? true : EMPTY))
+      .subscribe(
+        success =>  {
+          this.router.navigate(['/cursos']);
+        },
+        error => this.alertModalService.showAlertDanger('Erro ao deletar curso.')
+      );
   }
 
   

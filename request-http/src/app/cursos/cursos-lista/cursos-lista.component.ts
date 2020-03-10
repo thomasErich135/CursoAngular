@@ -7,8 +7,8 @@ import { Curso } from 'src/app/shared/interfaces/curso';
 
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
-import { Observable, empty } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, EMPTY } from 'rxjs';
+import { catchError, take, switchMap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -23,15 +23,12 @@ export class CursosListaComponent implements OnInit {
   cursos$: Observable<Curso[]>;
   modalRef: BsModalRef;
 
-  cursoSelecionado: Curso;
-
   @ViewChild('template') template;
 
   constructor(private cursosService: CursosService,
     private alertModalService: AlertModalService,
     private router: Router,
-    private route: ActivatedRoute,
-    private modalService: BsModalService) {}
+    private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.onRefresh();
@@ -44,7 +41,7 @@ export class CursosListaComponent implements OnInit {
           //emite o valor de true para o Observable error$
           //this.error$.next(true);
           this.handleError('Erro ao carregar cursos.');
-          return empty();
+          return EMPTY;
         })
       );
     
@@ -68,18 +65,16 @@ export class CursosListaComponent implements OnInit {
   }
  
   onDelete(curso, template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-    this.cursoSelecionado = curso;
-  }
-
-  onConfirmDelete() {
-    this.cursosService.deleteCurso(this.cursoSelecionado.id)
+    const result$ = this.alertModalService.showConfirm('Confirmação', 'Deseja realmente excluir o curso?');
+    result$.asObservable()
+      .pipe(
+        take(1),
+        switchMap(result => result ? this.cursosService.deleteCurso(curso.id) : EMPTY))
       .subscribe(
         success =>  {
-          this.onRefresh(),
-          this.modalRef.hide();
+          this.onRefresh()
         },
         error => this.handleError('Erro ao deletar curso.')
-      );   
+      );
   }
 }

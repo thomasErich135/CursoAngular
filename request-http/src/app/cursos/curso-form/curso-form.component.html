@@ -5,7 +5,7 @@
         <h5>Criar Novo Curso</h5>
       </div>
       <span class="float-right">
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="onCancel(template)">
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="onCancel()">
           Cancelar
         </button>
         <button type="submit" class="btn btn-outline-success btn-sm" (click)="onSubmit()">
@@ -31,20 +31,3 @@
     </div>
   </div>
 </form>
-
-<ng-template #template>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Cancelar</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    Existem alterações não salvas, deseja cancelar?
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-success" [routerLink]="['/cursos']"
-      (click)="modalRef.hide()">Sim</button>
-    <button type="button" class="btn btn-outline-danger" (click)="modalRef.hide()">Não</button>
-  </div>
-</ng-template>
