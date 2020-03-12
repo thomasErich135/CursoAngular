@@ -1,4 +1,4 @@
 export interface Curso {
-    id: number,
+    id: string,
     curso: string
 }

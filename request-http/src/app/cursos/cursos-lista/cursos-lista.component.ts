@@ -5,7 +5,7 @@ import { AlertModalService } from './../../shared/alert-modal/alert-modal.servic
 
 import { Curso } from 'src/app/shared/interfaces/curso';
 
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 import { Observable, EMPTY } from 'rxjs';
 import { catchError, take, switchMap } from 'rxjs/operators';
@@ -35,7 +35,7 @@ export class CursosListaComponent implements OnInit {
   }
 
   onRefresh() {
-    this.cursos$ = this.cursosService.getCursos()
+    this.cursos$ = this.cursosService.getAll()
       .pipe(
         catchError(error => {
           //emite o valor de true para o Observable error$
@@ -69,7 +69,7 @@ export class CursosListaComponent implements OnInit {
     result$.asObservable()
       .pipe(
         take(1),
-        switchMap(result => result ? this.cursosService.deleteCurso(curso.id) : EMPTY))
+        switchMap(result => result ? this.cursosService.delete(curso.id) : EMPTY))
       .subscribe(
         success =>  {
           this.onRefresh()

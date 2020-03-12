@@ -3,14 +3,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common'
 
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 import { AlertModalService } from './../../shared/alert-modal/alert-modal.service';
 import { CursosService } from '../cursos.service';
 
-import { take, map } from 'rxjs/operators';
+import { Curso } from 'src/app/shared/interfaces/curso';
 
-import { EMPTY } from 'rxjs';
+import { take, map, tap, catchError } from 'rxjs/operators';
+
+import { EMPTY, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-curso-form',
@@ -40,11 +42,11 @@ export class CursoFormComponent implements OnInit {
     //   )  
     //   .subscribe(curso => this.updateForm(curso));
 
-      // concatMap => ordem da requisição importa
-      // mergeMap => ordem não importa
-      // exhaustMap => casos de login (vai faz a requisição e espera a resposta)
+    // concatMap => ordem da requisição importa
+    // mergeMap => ordem não importa
+    // exhaustMap => casos de login (vai faz a requisição e espera a resposta)
 
-    const curso = this.route.snapshot.data['curso'];
+    const curso: Curso = this.route.snapshot.data['curso'];
 
     this.form = this.formBuilder.group({
       id: [curso.id],
@@ -67,21 +69,30 @@ export class CursoFormComponent implements OnInit {
 
       let msgSuccess = 'Curso salvo com sucesso.';
       let msgError = 'Erro ao salvar curso.';
-      if(this.form.value['id']){
+      if (this.form.value['id']) {
         msgSuccess = 'Curso atualizado com sucesso.';
         msgError = 'Erro ao atualizar curso.';
       }
 
       this.cursosService.save(cursoAux)
+        .pipe(
+          map(result => {
+            if(result['code'] != 200){
+              throw result;
+            }
+          }),
+          catchError(err => { throw err; })
+        )
         .subscribe(
           success => {
             this.alertModalService.showAlertSuccess(msgSuccess);
             this.location.back();
           },
           error => {
+            console.log(error);
             this.alertModalService.showAlertDanger(msgError)
           }
-        )
+        );
     }
   }
 
@@ -92,12 +103,12 @@ export class CursoFormComponent implements OnInit {
         take(1),
         map(result => result ? true : EMPTY))
       .subscribe(
-        success =>  {
+        success => {
           this.router.navigate(['/cursos']);
         },
         error => this.alertModalService.showAlertDanger('Erro ao deletar curso.')
       );
   }
 
-  
+
 }
