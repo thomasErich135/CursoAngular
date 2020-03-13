@@ -5,8 +5,6 @@ import { environment } from '../../environments/environment'
 
 import { Curso } from '../shared/interfaces/curso';
 
-import { Observable } from 'rxjs';
-import { delay, take } from 'rxjs/operators';
 import { CrudService } from '../shared/crud-service';
 
 @Injectable({

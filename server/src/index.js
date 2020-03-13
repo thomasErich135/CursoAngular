@@ -102,11 +102,71 @@ app.post('/cursos', (req, res) => {
     });
 })
 
+const getNextSequenceValue = (sequenceName) => {
+    MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
+        const db = client.db('test');
+        const collection = null;
+        db.listCollections({ name: 'counters' }).toArray((err, result) => {
+           if(err){
+               throw 'error in list collections';
+           };
+           if(result.length == 0) {
+               db.createCollection('counters');
+               this.collection = db.collection('counters');
+               collection.insertOne({
+                   id: sequenceName,
+                   sequence_value: 0
+               });
+           };
+        });        
+        return collection.findOneAndUpdate(
+            { id: sequenceName },
+            { $inc: { sequence_value: 1 }}
+        ).sequence_value;    
+        client.close();
+    });
+};
+    
+
+app.delete('/cursos/:id', (req, res) => {
+    MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
+        const db = client.db('test');
+        const collection = db.collection('cursos');
+        collection.deleteOne({ id: parseInt(req.params.id) } , (err, result) => {
+            client.close();
+            if (err) {
+                res.json({
+                    code: 500,
+                    message: 'Internal Server Error'
+                });
+                return;
+            }
+            if(result.deletedCount  > 0){
+                res.json({
+                    code: 200,
+                    message: 'Ok'
+                });
+            } else {
+                res.json({
+                    code: 400,
+                    message: 'Bad Request'
+                });
+            }
+        });
+    });
+})
+
 app.get('/', (req, res) => {
     res.json({
         status: 'Ok',
         msg: 'Servidor Express Node.js'
     });
+})
+
+app.get('/test', (req, res) => {
+    //const sequence = getNextSequenceValue('teste');
+    const sequence = getNextSequenceValue('counterId');
+    console.log(sequence);
 })
 
 app.use((err, req, res, next) => res.json({ error: err.message }));

@@ -2,3 +2,6 @@
     <input type="file" class="custom-file-input" id="customFile" (change)="onChange($event)" multiple>
     <label class="custom-file-label" for="customFile" id="customFileLabel">Choose file</label>
 </div>
+<div style="margin-top:  1rem;">
+    <button type="button" class="btn btn-outline-success btn-sm" (click)="onUpload()" [disabled]="!files">Upload</button>
+</div>
