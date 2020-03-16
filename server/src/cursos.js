@@ -123,9 +123,8 @@ app.delete('/cursos/:id', (req, res) => {
     });
 })
 
-async function getNextSequenceValue(sequenceName) {    
-    var ret;
-    await MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
+async function getNextSequenceValue(sequenceName) {        
+    let ret = MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
         const db = client.db('test');
 
         db.listCollections({ name: 'counters' }).toArray((err, result) => {
@@ -148,26 +147,28 @@ async function getNextSequenceValue(sequenceName) {
             };
         }).catch(err => console.log(err));
 
-        collection.findOneAndUpdate(
+        ret =  collection.findOneAndUpdate(
             { id: sequenceName },
             { $inc: { sequenceValue: 1 } },
             { 'returnNewDocument': true }
         ).then(result => {
-            console.log(result.value.sequenceValue);
-            return (ret = result.value.sequenceValue);
+            return result.value.sequenceValue;
         }).catch(
             err => console.log(err)
         ).finally(
             () => client.close()
         );
+
+        ret.then(result => console.log(result));
     });
 
+    console.log(ret);
     return ret;
 };
 
-app.get('/test', (req, res) => {
+app.get('/test', async (req, res) => {
     const sequenceName = 'cursoId';
-    let teste = getNextSequenceValue(sequenceName).then(result => {
+    let teste = await getNextSequenceValue(sequenceName).then(result => {
         console.log(result);
     });
     // console.log(teste);
