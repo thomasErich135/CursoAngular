@@ -135,3 +135,9 @@
 --------Usar o guarda de rota Resolver
 //utilizado para carregar o objeto antes de inicializar o componente.
 //exemplo em angularApp/request-app/cursos/guards
+
+
+--------nodemon
+//ferramenta para detecção automatica de alterações de arquivos e reinicia o servidor sem precisar de intervenção manual
+//dependencia somnete para desenvolvedor a tag --save-dev deve ser adicionada
+    npm install nodemon --save-dev
