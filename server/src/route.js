@@ -1,6 +1,6 @@
 const express = require('express');
-const apiRouter = express();
+const router = express.Router();
 
-apiRouter.use('/cursos', require('./cursos.js'));
+router.use(`/cursos`, require('./cursos.js'));
 
-module.exports = apiRouter;
+module.exports = router;

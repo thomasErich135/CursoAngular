@@ -22,17 +22,19 @@ app.get('/', (req, res) => {
     });
 })
 
-app.use(`/${versionApi}`, require("./route"));
+app.use(`/${versionApi}`, require("./route.js"));
+
+//app.use(`/${versionApi}/cursos`, require('./cursos.js'));
 
 app.get('*', (req, res) => {
     res.json({
         status: '404 - Not Found :/',
         msg: 'App Works :D'
     });
-})
+});
 
 app.use((err, req, res, next) => res.json({ error: err.message }));
 
 app.listen(port, () => {
     console.log('Servidor Porta 8000');
-})
+});
