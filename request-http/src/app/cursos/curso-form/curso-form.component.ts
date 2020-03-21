@@ -77,9 +77,9 @@ export class CursoFormComponent implements OnInit {
       this.cursosService.save(cursoAux)
         .pipe(
           map(result => {
-            if(result['code'] != 200){
-              throw result;
-            }
+            // if(result['code'] != 200){
+            //   throw result;
+            // }
           }),
           catchError(err => { throw err; })
         )
