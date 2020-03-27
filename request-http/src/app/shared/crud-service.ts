@@ -9,10 +9,7 @@ export class CrudService<T> {
   }
 
   getAll(): Observable<T[]> {
-    return this.http.get<T[]>(`${this.API_URL}`)
-      .pipe(
-        delay(1000)
-      );
+    return this.http.get<T[]>(`${this.API_URL}`);
   }
 
   getById(id: string) {

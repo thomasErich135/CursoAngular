@@ -3,7 +3,7 @@ const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
 const multipart = require('connect-multiparty');
 
-const url = 'mongodb://thomas:th906354@127.0.0.1:27017/test';
+const url = 'mongodb://sa:X906354t@tpspoazvm01.brazilsouth.cloudapp.azure.com/admin';
 
 router.get('/', (req, res) => {
     MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
