@@ -164,7 +164,7 @@ function getNextSequenceValue(sequenceName) {
     });
 };
 
-const multipartMiddleware = multipart({ uploadDir: './uploads' });
+const multipartMiddleware = multipart({ uploadDir: './shared/uploads' });
 router.post('/upload', multipartMiddleware, (req, res) => {
     const files = req.files;
     console.log(files);
