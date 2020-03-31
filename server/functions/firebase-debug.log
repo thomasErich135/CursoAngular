@@ -1,0 +1,22 @@
+[debug] [2020-03-31T16:09:26.072Z] ----------------------------------------------------------------------
+[debug] [2020-03-31T16:09:26.075Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Thompson Note\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2020-03-31T16:09:26.076Z] CLI Version:   7.16.2
+[debug] [2020-03-31T16:09:26.076Z] Platform:      win32
+[debug] [2020-03-31T16:09:26.076Z] Node Version:  v13.8.0
+[debug] [2020-03-31T16:09:26.077Z] Time:          Tue Mar 31 2020 13:09:26 GMT-0300 (Horário Padrão de Brasília)
+[debug] [2020-03-31T16:09:26.077Z] ----------------------------------------------------------------------
+[debug] [2020-03-31T16:09:26.077Z] 
+[debug] [2020-03-31T16:09:26.088Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-03-31T16:09:26.089Z] > authorizing via signed-in user
+[debug] [2020-03-31T16:09:26.089Z] [iam] checking project oneewebapi for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2020-03-31T16:09:26.093Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/oneewebapi:testIamPermissions  
+
+[debug] [2020-03-31T16:09:27.192Z] <<< HTTP RESPONSE 200
+[debug] [2020-03-31T16:09:27.202Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/oneewebapi  
+ 
+[debug] [2020-03-31T16:09:28.489Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'oneewebapi'...
+[info] 
+[info] i  deploying functions, hosting
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
