@@ -7,6 +7,9 @@ const url = 'mongodb+srv://thomas:th906354@oneewebapi-db-wuab8.gcp.mongodb.net/t
 
 router.get('/', (req, res) => {
     MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
+        if(err) {
+            throw new Error('Erro ao conectar no banco de dados')
+        }
         const db = client.db('test');
         const collection = db.collection('cursos');
         collection.find({}).toArray((err, docs) => {
