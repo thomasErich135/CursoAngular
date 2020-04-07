@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
-const multipart = require('connect-multiparty');
+//const multipart = require('connect-multiparty');
 
 const url = 'mongodb+srv://thomas:th906354@oneewebapi-db-wuab8.gcp.mongodb.net/test?retryWrites=true&w=majority'
 
@@ -164,11 +164,11 @@ function getNextSequenceValue(sequenceName) {
     });
 };
 
-const multipartMiddleware = multipart({ uploadDir: './shared/uploads' });
-router.post('/upload', multipartMiddleware, (req, res) => {
-    const files = req.files;
-    console.log(files);
-    res.json({ message: files });
-})
+// const multipartMiddleware = multipart({ uploadDir: './shared/uploads' });
+// router.post('/upload', multipartMiddleware, (req, res) => {
+//     const files = req.files;
+//     console.log(files);
+//     res.json({ message: files });
+// })
 
 module.exports = router;

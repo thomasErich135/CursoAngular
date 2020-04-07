@@ -5,7 +5,7 @@ const cors = require('cors');
 
 //Configurações da API
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8000;
 const versionApi = 'v1';
 
 //Mensagens padrões formatadas

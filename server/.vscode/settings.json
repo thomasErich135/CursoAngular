@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/dfc466b4-1d53-4d12-a289-947fab25fdb9/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/oneewebapi",
+    "appService.deploySubpath": "old"
+}
