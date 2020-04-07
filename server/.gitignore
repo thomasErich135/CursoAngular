@@ -1,5 +1,5 @@
-#node
-/node_modules
+#node modules
+node_modules/
 
-#date
-/uploads
+#lint
+.eslintrc.json
