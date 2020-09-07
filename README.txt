@@ -1,3 +1,5 @@
+https://teams.microsoft.com/dl/launcher/launcher.html?type=meetup-join&deeplinkId=9c1ffe7c-964f-4a17-b7a9-01f19a252408&directDl=true&msLaunch=true&enableMobilePage=true&url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_ZDM5NzUyYmUtODQxMi00NTU0LWE0NmItN2U4YTg3ZDkyMDRm@thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25223048dc87-43f0-4100-9acb-ae1971c79395%2522%252c%2522Oid%2522%253a%252231f0718a-f9a6-4830-8578-87cfc9a3c0f1%2522%257d%26anon%3Dtrue&suppressPrompt=true
+
 ---------ncu
 //instala o ncu ou npm check update
     npm install -g npm-check-updates
